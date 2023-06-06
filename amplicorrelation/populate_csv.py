@@ -6,51 +6,61 @@ import os
 
 BASE_URL = "https://www.genenetwork.nl/api/v1/gene/"
 # Specify the root directory from which to start the iteration
-root_dir = "/Users/jfaybishenko/Documents/School/CSE/CSE_182/project/amplicorrelation/out"
-df = pd.DataFrame()
+# root_dir = "/Users/myahn725/Code/CSE_182/project/amplicorrelation/out"
+root_dir = "out"
+df = pd.DataFrame(columns=["sample"])
+
 row_id = []
 columns = {}
 samples = 0
 # Iterate over every subdirectory in the root directory
-for dirpath, amplicons, filenames in os.walk(root_dir):
+for dirpath, dirnames, filenames in os.walk(root_dir):
     # dirpath: the path to the current subdirectory
     # dirnames: a list of the subdirectories in dirpath
     # filenames: a list of the filenames in dirpath
 
-    for cycles in amplicons:
-        path = os.path.join(dirpath, cycles)
-        for subdirpath, subdirnames, subfilenames in os.walk(path):
-            for file in subfilenames:
-                #row_id.append(amplicons + '_' + cycles)
-                if 'genes' in file:
-                    print(file)
-                    full_path = os.path.join(path, file)
-                    
-                    
-                    with open(full_path, "r") as f:
-                        # Read all lines of the file into a list
-                        lines = f.readlines()
-                    genes = [line.strip() for line in lines]
+    for amplicons in dirnames:
+        path = os.path.join(dirpath, amplicons)
 
-                    for gene_id in genes: 
-                        res = requests.get(f"{BASE_URL}{gene_id}")
-                        data = res.json()
-                        gene_id_dict = data["gene"]
-                        cycle_genes = []
-                        if gene_id_dict['biotype'] == 'ncRNA' or gene_id_dict['biotype'] == 'lncRNA':
-                            if gene_id not in df.columns:
-                                df[gene_id] = pd.Series(dtype=int)
-                                cycle_genes.append(gene_id)
-                        
-                    new_row = {}
-                    for column in df.columns:
-                        if column in cycle_genes:
-                            new_row[column] = 1
-                        else:
-                            new_row[column] = 0  
+        for dirpath, dirnames, _ in os.walk(path):
+            for cycles in dirnames:
+                path = os.path.join(dirpath, cycles)
+                for subdirpath, subdirnames, subfilenames in os.walk(path):
+                    for file in subfilenames:
+                        # row_id.append(amplicons + '_' + cycles)
+                        if "genes" in file:
+                            # print(file)
+                            full_path = os.path.join(path, file)
 
-                    #df = df.append(new_row, ignore_index=True)
-                    df.loc[amplicons + '_' + cycles] = new_row
+                            print(full_path)
+                            with open(full_path, "r") as f:
+                                # Read all lines of the file into a list
+                                lines = f.readlines()
+                            genes = [line.strip() for line in lines]
+
+                            for gene_id in genes:
+                                print(gene_id)
+                                res = requests.get(f"{BASE_URL}{gene_id}")
+                                data = res.json()
+                                gene_id_dict = data["gene"]
+                                cycle_genes = []
+                                if (
+                                    gene_id_dict["biotype"] == "ncRNA"
+                                    or gene_id_dict["biotype"] == "lncRNA"
+                                ):
+                                    if gene_id not in df.columns:
+                                        df[gene_id] = pd.Series(dtype=int)
+                                        cycle_genes.append(gene_id)
+
+                            new_row = {"sample": amplicons + "_" + cycles}
+                            for column in df.columns:
+                                if column in cycle_genes:
+                                    new_row[column] = 1
+                                else:
+                                    new_row[column] = 0
+
+                            df = df.append(new_row, ignore_index=True)
+                            # df.loc[amplicons + "_" + cycles] = new_row
 
 
 output_file = "out_matrix.csv"
@@ -59,7 +69,7 @@ output_file = "out_matrix.csv"
 df.to_csv(output_file, index=True)
 
 
-'''
+"""
 # Iterate over every subdirectory in the root directory
 for dirpath, dirnames, filenames in os.walk(root_dir):
     # dirpath: the path to the current subdirectory
@@ -86,4 +96,4 @@ data = res.json()
 # print(data["comment"])
 #print(data.keys())
 print(data["gene"])
-'''
+"""
