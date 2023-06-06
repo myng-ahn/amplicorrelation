@@ -62,90 +62,6 @@ for gene in genes:
 if gene_info == "":
     gene_info = "Unable to retrieve gene information"
 
-css = r"""
-html {
-    height: 100vh;
-    padding: 0;
-    font-family: Helvetica, sans-serif;
-}
-body {
-    height: 100%;
-    padding: 0;
-}
-
-img {
-    max-width:100%;
-    max-height:100%;
-}
-
-.wrapper {
-    justify-content: center;
-    width: 80%;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 10vh;
-    text-align: center;
-}
-
-.split {
-    display: grid;
-    grid-template-columns: 2fr 3fr;
-    margin-top:6vh
-}
-
-.split > * {
-    padding:1rem;
-}
-
-.geneInfoWrapper {
-    margin-left: 10%
-}
-
-.geneInfoBtn {
-    cursor: pointer;
-    width: 100%;
-    padding: 3% 5% 3%;
-    text-align: left;
-    font-size: 2.5em;
-    border: none;
-    outline: none;
-    transition: 0.4s;
-}
-
-.oncogeneBtn {
-    color: #a80402;
-}
-
-.ncRNABtn {
-    color: #2d128c
-}
-
-.cycleViz {
-    position: fixed;
-    width: 50vw;
-    left: 45%;
-    top: 15%;
-}
-
-/* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
-.active, .geneInfoBtn:hover {
-    background-color: #ccc;
-}
-
-.panel {
-    padding: 0 18px;
-    background-color: white;
-    text-align: left;
-    font-size: 1.5em;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.2s ease-out;
-}
-
-"""
-with open(f"{output_dir}/style.css", "w") as f:
-    f.write(css)
-
 script = r"""
     <script>
         var acc = document.getElementsByClassName("geneInfoBtn");
@@ -173,7 +89,7 @@ html = f"""
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <meta http-equiv="X-UA-Compatible" content="ie=edge" />
         <title>{fname} gene description</title>
-        <link rel="stylesheet" href="style.css" />
+        <link rel="stylesheet" href="../../../style.css" />
     </head>
 
     <body>
