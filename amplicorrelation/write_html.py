@@ -45,7 +45,9 @@ for gene in genes:
         source_string = "\[Source:.*\]"
         description = re.sub(source_string, "", description)
         oncogene_class = "oncogeneBtn" if gene in known_oncogenes else ""
-        ncRNA_class = "ncRNABtn" if "ncRNA" in biotype else ""
+        ncRNA_class = (
+            "ncRNABtn" if ("ncRNA" in biotype) or ("snoRNA" in biotype) else ""
+        )
         gene_info += f"""
             <button class="geneInfoBtn {oncogene_class} {ncRNA_class}">{gene}</button>
             <div class="panel">
