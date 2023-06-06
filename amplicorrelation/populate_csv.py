@@ -37,7 +37,7 @@ for dirpath, amplicons, filenames in os.walk(root_dir):
                         data = res.json()
                         gene_id_dict = data["gene"]
                         cycle_genes = []
-                        if gene_id_dict['biotype'] == 'protein_coding' or gene_id_dict['biotype'] == 'protein_coding':
+                        if gene_id_dict['biotype'] == 'ncRNA' or gene_id_dict['biotype'] == 'lncRNA':
                             if gene_id not in df.columns:
                                 df[gene_id] = pd.Series(dtype=int)
                                 cycle_genes.append(gene_id)
