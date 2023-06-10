@@ -1,5 +1,5 @@
 # amplicorrelation
-In order to run, download `out` and `results` folder from the CSE182: Final Project Google Drive. Copy `results` to the main (highest level) directory and `out` to the `amplicorrelation/` directory.
+In order to run, download `out` and `results` folder from the CSE182: Final Project Google Drive (https://drive.google.com/drive/folders/1Y1aysIJ-7H8zIRMie9V6YaR03Xgk-G8T?usp=sharing). Copy `results` to the main (highest level) directory and `out` to the `amplicorrelation/` directory.
 
 ![image](https://github.com/myng-ahn/amplicorrelation/assets/78687742/95352b7d-f223-431a-a5ce-7487f305be27)
 
